@@ -40,11 +40,16 @@ fxLayoutGap.xs="0">
 
             <mat-card-content>
                 
-                <mat-list *ngFor="let comment of dish.comments">                
-                    <mat-list-item class="container">
-                        {{ comment.comment }} <br>
-                        {{ comment.rating }} Stars <br>
-                        -- {{ comment.author + " " + (comment.date | date:'longDate') }}<br>
+                <mat-list >                
+                    <mat-list-item *ngFor="let comment of dish.comments">
+
+                        <h4 matLine>{{ comment.comment }} </h4>
+                        <p matLine> {{ comment.rating }} Stars </p>
+                        <p matLine>
+                            <span>-- {{ comment.author + " " + (comment.date | date:'longDate') }}</span>
+
+                        </p>
+
                     </mat-list-item> 
                 </mat-list>
 
