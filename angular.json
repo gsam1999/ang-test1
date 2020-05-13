@@ -25,7 +25,7 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -122,5 +122,10 @@
       }
     }
   },
-  "defaultProject": "test2"
+  "defaultProject": "test2",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
