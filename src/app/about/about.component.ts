@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Feature } from '../shared/feature';
+import { FeatureService } from '../services/feature.service';
 
 @Component({
   selector: 'app-about',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  leaders:Feature[];
+
+  constructor(private featureService:FeatureService) { }
 
   ngOnInit(): void {
+
+    this.leaders = this.featureService.getFeatures();
   }
 
 }
