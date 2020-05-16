@@ -30,12 +30,14 @@ import { FeatureService } from './services/feature.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { LoginComponent } from './login/login.component'; 
 
+import { MatSelectModule, MatSelect } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatInput } from '@angular/material/input';
 import { MatCheckboxModule, MatCheckbox } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -66,7 +68,10 @@ import { FormsModule } from '@angular/forms'
     MatInputModule,
     MatCheckboxModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatSlideToggleModule
   ],
   providers: [ 
     DishService,
