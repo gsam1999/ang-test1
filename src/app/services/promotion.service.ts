@@ -9,18 +9,18 @@ export class PromotionService {
 
   constructor() { }
 
-  getPromotions():Promotion[]
+  getPromotions(): Promise<Promotion[]>
   {
-    return PROMOTIONS;
+    return Promise.resolve(PROMOTIONS);
   }
 
-  getPromotion(id:string):Promotion{
+  getPromotion(id:string): Promise<Promotion>{
 
-    return PROMOTIONS.filter((dish)=> dish.id === id )[0];
+    return Promise.resolve(PROMOTIONS.filter((dish)=> dish.id === id )[0]);
   }
 
-  getFeaturedPromotion():Promotion{
-    return PROMOTIONS.filter((dish)=> dish.featured )[0];
+  getFeaturedPromotion(): Promise<Promotion> {
+    return Promise.resolve(PROMOTIONS.filter((dish)=> dish.featured )[0]);
   }
 
 

@@ -15,7 +15,8 @@ export class AboutComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.leaders = this.featureService.getFeatures();
+    this.featureService.getFeatures()
+    .then( (val) => this.leaders=val );
   }
 
 }
