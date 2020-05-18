@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input ,Inject} from '@angular/core';
 import { Dish } from '../shared/dish';
 import { Params,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -29,7 +29,7 @@ export class DishdetailComponent implements OnInit {
   next:string;
 
 
-  constructor( private dishService:DishService, private location:Location, private route:ActivatedRoute) { }
+  constructor( private dishService:DishService, private location:Location, private route:ActivatedRoute, @Inject('BaseURL') public BaseURL) { }
 
   ngOnInit(): void {
     
