@@ -17,6 +17,6 @@ export class AboutComponent implements OnInit {
 
     this.featureService.getFeatures()
     .then( (val) => this.leaders=val );
-  }
+  } 
 
 }
