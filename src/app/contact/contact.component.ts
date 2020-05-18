@@ -40,7 +40,7 @@ export class ContactComponent implements OnInit {
     },
     'email':{
       'required':'email is required',
-      'pattern':'email must have a valid type'
+      'email':'email must have be valid type'
     }
   };
 
