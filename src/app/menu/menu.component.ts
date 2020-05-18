@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
 
   dishes:Dish[];
-
   selectedDish:Dish;
+  errMess : string;
 
   onSelect(dish:Dish)
   {
@@ -28,7 +28,7 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
 
     this.dishService.getDishes()
-    .subscribe( (dishes)=> this.dishes = dishes);
+    .subscribe( (dishes)=> this.dishes = dishes , errmess=> this.errMess = <any>errmess );
   }
 
 }

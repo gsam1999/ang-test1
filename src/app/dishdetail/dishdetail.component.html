@@ -68,6 +68,13 @@ fxLayoutGap.xs="0">
             </mat-card-content>
         </mat-card>
     </div>
+
+    <div fxFlex *ngIf ="errMess">
+        <h2> Error </h2>
+        <h4>
+            {{ errMess }}
+        </h4>
+        </div>
    
 
 </div>
