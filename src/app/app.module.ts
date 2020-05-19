@@ -40,6 +40,8 @@ import { MatInputModule, MatInput } from '@angular/material/input';
 import { MatCheckboxModule, MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSliderModule } from '@angular/material/slider';
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { baseURL } from "./shared/baseurl";
@@ -76,7 +78,8 @@ import { baseURL } from "./shared/baseurl";
     MatSelectModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSliderModule
   ],
   providers: [ 
     DishService,

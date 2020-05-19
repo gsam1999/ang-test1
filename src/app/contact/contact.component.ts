@@ -6,7 +6,7 @@ import { NONE_TYPE } from '@angular/compiler';
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent implements OnInit {
 
@@ -47,7 +47,6 @@ export class ContactComponent implements OnInit {
   @ViewChild('fform') feebackFormDirective;
 
   constructor(private fb:FormBuilder) {
-
     this.createForm();
    }
 
@@ -100,7 +99,6 @@ export class ContactComponent implements OnInit {
         }
       }
     }
-
   }
 
   onSubmit(){

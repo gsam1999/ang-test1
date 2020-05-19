@@ -1,9 +1,11 @@
-import { Component, OnInit, Input ,Inject} from '@angular/core';
+import { Component, OnInit, Input ,Inject,ViewChild} from '@angular/core';
 import { Dish } from '../shared/dish';
+import { Comment } from '../shared/comment';
 import { Params,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service'
 import { switchMap } from 'rxjs/operators';
+import { FormGroup, FormControl,Validators, FormBuilder, } from "@angular/forms";
 
 @Component({
   selector: 'app-dishdetail',
@@ -28,12 +30,47 @@ export class DishdetailComponent implements OnInit {
   prev:string;
   next:string;
   errMess:string;
+  
+  date:Date;
+
+  commentForm : FormGroup;
+  newComment : Comment; 
+
+  formErrors = {
+    'author':'',
+    'rating':'',
+    'comment':''
+  };
+
+  erroeMessages={
+    'author':{
+      'required':'This is a required field',
+      'minlength':' atleast 2 charrs',
+      'maxlength':' max 20 chars'
+    }, 
+    'rating':{
+      'required': "this is a required field"
+    },
+    'comment':{
+      'required':'This is a required field',
+      'minlength':' atleast 2 charrs',
+      'maxlength':' max 20 chars'
+    }
+  }
 
 
-  constructor( private dishService:DishService, private location:Location, private route:ActivatedRoute, @Inject('BaseURL') public BaseURL) { }
+  @ViewChild('cform') formPage;
+
+  constructor( private dishService:DishService, private location:Location, private fb:FormBuilder,
+    private route:ActivatedRoute,
+     @Inject('BaseURL') public BaseURL) { }
 
   ngOnInit(): void {
     
+    this.createForm();
+
+    this.date = new Date;
+
     this.dishService.getDishIds()
     .subscribe(val=> this.dishIds=val );
 
@@ -54,7 +91,43 @@ export class DishdetailComponent implements OnInit {
   goBack():void{
 
     this.location.back();
-
   } 
+
+  createForm():void{
+    this.commentForm = this.fb.group({
+      author : ['',[Validators.required,Validators.minLength(2),Validators.maxLength(25)]] ,
+      rating: ['5',Validators.required],
+      comment: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(20)]]
+    });
+
+    this.commentForm.valueChanges.subscribe(data => this.onInputChange(data));
+
+    this.onInputChange();
+
+  }
+
+  onInputChange( data ?:any ):void
+  {
+      //console.log(data);
+  }
+
+  onSubmit():void{
+    this.newComment = this.commentForm.value;
+    //console.log(this.newComment);
+    this.commentForm.reset({
+      author:"",
+      rating:"5",
+      comment:""
+    });
+
+    this.newComment.date = this.date.toISOString();
+
+    //console.log(this.formPage.status);
+    //console.log(this.dish);
+
+    this.dish.comments.push(this.newComment);
+    this.formPage.resetForm();
+
+  }
 
 }

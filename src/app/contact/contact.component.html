@@ -45,7 +45,7 @@
     </p>
     <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" #fform='ngForm'>
       <p>
-        <mat-form-field class="half-width">
+        <mat-form-field class="half-width"> 
           <input matInput formControlName="firstname" placeholder="firstname" type="text" required>
           <mat-error *ngIf="formErrors.firstname">
               {{ formErrors.firstname }}
@@ -95,4 +95,4 @@
     </form>
   </div>
 
-</div>
+</div> 
