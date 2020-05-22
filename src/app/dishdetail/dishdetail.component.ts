@@ -5,7 +5,8 @@ import { Params,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service'
 import { switchMap } from 'rxjs/operators';
-import { FormGroup, FormControl,Validators, FormBuilder, } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormBuilder, } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-dishdetail',
@@ -32,6 +33,8 @@ export class DishdetailComponent implements OnInit {
   errMess:string;
   
   date:Date;
+
+  dishCopy:Dish;
 
   commentForm : FormGroup;
   newComment : Comment; 
@@ -75,7 +78,7 @@ export class DishdetailComponent implements OnInit {
     .subscribe(val=> this.dishIds=val );
 
     this.route.params.pipe( switchMap( (params:Params) => this.dishService.getDish(params['id'] ) ) )
-    .subscribe((dish)=> {this.dish=dish; this.setPrevNext(dish.id)} , errmess => this.errMess=<any>errmess);
+    .subscribe((dish)=> {this.dish=dish; this.setPrevNext(dish.id); this.dishCopy = dish} , errmess => this.errMess=<any>errmess);
   }
 
   setPrevNext(dishId: string)
@@ -109,7 +112,31 @@ export class DishdetailComponent implements OnInit {
   onInputChange( data ?:any ):void
   {
       //console.log(data);
-  }
+      if(!this.commentForm)
+      {
+        return;
+      }
+
+      let form = this.commentForm;
+      for(const field in this.formErrors){
+        if(this.formErrors.hasOwnProperty(field))
+        {
+          this.formErrors[field]="";
+          const control = form.get(field);
+          if(control && control.dirty && !control.valid)
+          {
+            const messages = this.erroeMessages[field];
+            for(const key in control.errors)
+            {
+              if(control.errors.hasOwnProperty(key))
+              {
+                this.formErrors[field]+=messages[key]+' ';
+              }
+            }
+          }
+        }
+      }
+    }
 
   onSubmit():void{
     this.newComment = this.commentForm.value;
@@ -125,7 +152,12 @@ export class DishdetailComponent implements OnInit {
     //console.log(this.formPage.status);
     //console.log(this.dish);
 
-    this.dish.comments.push(this.newComment);
+    this.dishCopy.comments.push(this.newComment);
+    this.dishService.putDish(this.dishCopy).subscribe(dish=>{
+      this.dish = dish;
+      this.dishCopy = dish;
+     }, 
+     errmess => { this.dish=null; this.dishCopy = null; this.errMess = <any>errmess });
     this.formPage.resetForm();
 
   }
