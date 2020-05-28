@@ -35,13 +35,12 @@ export function newFly()
 {
     return trigger('newFly',[
         transition(':enter',[
-            style({transform:'translateY(100%)'}),
-            animate(500)
-    
+            style({transform:'translateY(-100%)'}),
+            animate(200)
         ]),
         transition(':leave',[
-            style({transform:'translateX(50%)'}),
-            animate('1000ms ease-out', style({transform:'translateY(100%)',opacity:0}))
+            style({}),
+            animate('500ms ease-out', style({transform:'translate(50%,100%)',opacity:0}))
         ])
     ]);
 }
