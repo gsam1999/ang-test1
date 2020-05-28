@@ -36,14 +36,14 @@
     </div>
   </div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+  <div fxFlex fxFlexOffset="20px" class="form-size" >
     <h3>
       Send us your feedback
     </h3>
     <p>
       {{ feedbackForm.value | json }} {{ feedbackForm.status | json }}
     </p>
-    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" #fform='ngForm'>
+    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" #fform='ngForm' [hidden]='!showForm' [@newFly]>
       <p>
         <mat-form-field class="half-width"> 
           <input matInput formControlName="firstname" placeholder="firstname" type="text" required>
@@ -58,7 +58,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="half-width">
-          <input matInput formControlName="telnum" placeholder="Tel. Num" type="tel" pattern='[0-9*]' required>
+          <input matInput formControlName="telnum" placeholder="Tel. Num" type="tel" pattern='[0-9]*' required>
           <mat-error *ngIf="formErrors.telnum">
             {{ formErrors.telnum }}
           </mat-error>
@@ -90,9 +90,29 @@
 
           </textarea>
         </mat-form-field>
-      </p>
+      </p> 
       <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid"> Submit Feedback </button>
     </form>
+    <div [hidden]="!showAnimation">
+      <mat-spinner></mat-spinner><h4> Loading... Please Wait</h4>
+    </div>
+    <div *ngIf='test' [@newFly]>
+      <mat-card>
+        <mat-card-header>
+          Submitted Feedback
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list >
+            <mat-list-item *ngFor='let item of objectVals(createdFeedback)'>
+                  <b> {{ item }}</b>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+        
+
+      </mat-card>
+      </div>
+
   </div>
 
 </div> 

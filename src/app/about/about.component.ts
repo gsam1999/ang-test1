@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { Feature } from '../shared/feature';
 import { FeatureService } from '../services/feature.service';
 import { flyInOut,expand } from '../animations/app.animation'; 
+import { baseURL } from "../shared/baseurl";
 
 @Component({
   selector: 'app-about',
@@ -19,12 +20,12 @@ export class AboutComponent implements OnInit {
 
   leaders:Feature[];
 
-  constructor(private featureService:FeatureService) { }
+  constructor(private featureService:FeatureService, @Inject('BaseURL') public BaseURL) { }
 
   ngOnInit(): void {
 
     this.featureService.getFeatures()
-    .then( (val) => this.leaders=val );
+    .subscribe( (val) => this.leaders=val );
   } 
 
 }

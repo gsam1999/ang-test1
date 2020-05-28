@@ -2,7 +2,12 @@ import { Component, OnInit , ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup,Validators } from '@angular/forms';
 import { Feedback,ContactType } from '../shared/feedback';
 import { NONE_TYPE } from '@angular/compiler';
-import { flyInOut } from '../animations/app.animation'; 
+import { flyInOut,newFly } from '../animations/app.animation'; 
+import { of,Observable } from 'rxjs';
+import { delay, map, catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { baseURL } from "../shared/baseurl";
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -13,7 +18,7 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display:block;'
   },
   animations:[
-    flyInOut()
+    flyInOut(),newFly()
   ]
 })
 export class ContactComponent implements OnInit {
@@ -21,6 +26,12 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  createdFeedback:Feedback;
+  showForm:boolean = true;
+  showAnimation:boolean = false;
+  objectVals = Object.values;
+  test:boolean = false;
+
   contactType = ContactType;
 
   formErrors = {
@@ -54,11 +65,15 @@ export class ContactComponent implements OnInit {
 
   @ViewChild('fform') feebackFormDirective;
 
-  constructor(private fb:FormBuilder) {
+  constructor(private fb:FormBuilder,public http:HttpClient,public feedbackService:FeedbackService) {
     this.createForm();
    }
 
   ngOnInit(): void {
+
+     
+  setTimeout(()=>{this.test = true, setTimeout(()=>{ this.test= false; },3000); } ,3000);
+
   }
 
   createForm(){
@@ -112,7 +127,7 @@ export class ContactComponent implements OnInit {
   onSubmit(){
 
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    //console.log(this.feedback);
     this.feedbackForm.reset({
       firstname:"",
       lastname:"",
@@ -122,8 +137,22 @@ export class ContactComponent implements OnInit {
       contacttype:'None',
       message:''
     });
-    this.feebackFormDirective.resetForm();
+    this.showForm = false;
+    this.showAnimation = true;
 
+    //this.http.post<Feedback>(baseURL+'feedback'+this.feedback,httpOptions);
+    
+    
+    this.feedbackService.createFeedback(this.feedback).subscribe((data)=>{
+      this.createdFeedback=data;
+      console.log(this.createdFeedback);
+      this.showAnimation = false;
+      setTimeout(()=>{this.createdFeedback = null;this.showForm = true;} ,5000);
+     
+    });
+
+
+    this.feebackFormDirective.resetForm();
   }
 
 }
